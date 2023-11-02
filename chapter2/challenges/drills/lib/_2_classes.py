@@ -53,7 +53,9 @@ class Greeter():
 #   > animal
 #   <Animal object at 0x7f8b8c0b8e80>
 
-
+class Animal:
+    def __init__(self):
+        pass
 
 # Class name: Vehicle
 # Purpose: a generic vehicle
@@ -66,7 +68,9 @@ class Greeter():
 #   > vehicle
 #   <Vehicle object at 0x7f8b8c0b8e80>
 
-
+class Vehicle:
+    def __init__(self):
+        pass
 
 # Class name: Cat
 # Purpose: miaows at the user
@@ -81,7 +85,12 @@ class Greeter():
 #   > cat.speak()
 #   'miaow'
 
+class Cat:
+    def __init__(self):
+        pass
 
+    def speak(self):
+        return 'miaow'
 
 # Class name: Dog
 # Purpose: woofs at the user
@@ -96,7 +105,12 @@ class Greeter():
 #   > dog.speak()
 #   'woof'
 
+class Dog:
+    def __init__(self):
+        pass
 
+    def speak(self):
+        return 'woof'
 
 # Class name: StringFormatter
 # Purpose: transforms strings
@@ -116,7 +130,15 @@ class Greeter():
 #   > string_formatter.lower_case('HELLO')
 #   'hello'
 
+class StringFormatter:
+    def __init__(self):
+        pass
 
+    def block_caps(self, input_string):
+        return input_string.upper()
+
+    def lower_case(self, input_string):
+        return input_string.lower()
 
 # Class name: Calculator
 # Purpose: performs basic arithmetic
@@ -146,6 +168,23 @@ class Greeter():
 #   > calculator.divide(6, 2)
 #   3.0
 
+class Calculator:
+    def __init__(self):
+        pass
+
+    def add(self, num1, num2):
+        return num1 + num2
+
+    def multiply(self, num1, num2):
+        return num1 * num2
+
+    def subtract(self, num1, num2):
+        return num1 - num2
+
+    def divide(self, num1, num2):
+        if num2 == 0:
+            return "Division by zero is not allowed"
+        return num1 / num2
 
 
 # Class name: Apprentice
@@ -172,7 +211,13 @@ class Greeter():
 #   > apprentice.format_details()
 #   'Rita Smith, June 2030'
 
+class Apprentice:
+    def __init__(self, name, cohort):
+        self.name = name
+        self.cohort = cohort
 
+    def format_details(self):
+        return f"{self.name}, {self.cohort}"
 
 # Class name: Cohort
 # Purpose: represents a cohort
@@ -205,5 +250,14 @@ class Greeter():
 #   > cohort.calculate_duration()
 #   92
 
+import datetime
+class Cohort:
+    def __init__(self, name, start_date, end_date):
+        self.name = name
+        self.start_date = datetime.date.fromisoformat(start_date)
+        self.end_date = datetime.date.fromisoformat(end_date)
 
+    def calculate_duration(self):
+        duration = self.end_date - self.start_date
+        return duration.days
 
