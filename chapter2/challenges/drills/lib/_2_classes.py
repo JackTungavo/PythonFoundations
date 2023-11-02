@@ -260,4 +260,3 @@ class Cohort:
     def calculate_duration(self):
         duration = self.end_date - self.start_date
         return duration.days
-
