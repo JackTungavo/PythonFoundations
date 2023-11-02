@@ -66,7 +66,44 @@
 # idea.
 
 # == YOUR CODE ==
-
 from datetime import datetime
-class PasswordManager2():
-    pass
+class PasswordManager2:
+    def __init__(self):
+        self.passwords = {}
+        self.order_added = []
+
+    def add(self, service, password):
+        if service not in self.passwords and self.is_valid(password):
+            self.passwords[service] = password
+            self.order_added.append(service)
+
+    def remove(self, service):
+        if service in self.passwords:
+            self.order_added.remove(service)
+            del self.passwords[service]
+
+    def update(self, service, password):
+        if service in self.passwords and self.is_valid(password):
+            self.passwords[service] = password
+
+    def list_services(self):
+        return list(self.passwords.keys())
+
+    def sort_services_by(self, order, reverse=False):
+        if order == 'service':
+            sorted_services = sorted(self.passwords.keys())
+        elif order == 'added_on':
+            sorted_services = sorted(self.order_added, key=lambda x: self.order_added.index(x))
+
+        if reverse:
+            sorted_services.reverse()
+
+        return sorted_services
+
+    def get_for_service(self, service):
+        return self.passwords.get(service, None)
+
+    def is_valid(self, password):
+        if len(password) >= 8 and any(char in password for char in '!@#$%&'):
+            return True
+        return False

@@ -42,5 +42,21 @@
 
 # == YOUR CODE ==
 
-class PasswordManager():
-    pass
+class PasswordManager:
+    def __init__(self):
+        self.passwords = {}
+
+    def add(self, service, password):
+        if self.is_valid(password):
+            self.passwords[service] = password
+
+    def get_for_service(self, service):
+        return self.passwords.get(service, None)
+
+    def list_services(self):
+        return list(self.passwords.keys())
+
+    def is_valid(self, password):
+        if len(password) >= 8 and any(char in password for char in '!@#$%&'):
+            return True
+        return False
