@@ -23,7 +23,8 @@
 #   Call:    first_element([1, 2, 3])
 #   Returns: 1
 
-
+def first_element(input_list):
+    return input_list[0]
 
 # Method name: second_element
 # Purpose: returns the second element of the given list
@@ -31,8 +32,8 @@
 # Example:
 #   Call:    second_element([1, 2, 3])
 #   Returns: 2
-
-
+def second_element(input_list):
+    return input_list[1]
 
 # Method name: last_element
 # Purpose: returns the last element of the given list
@@ -41,7 +42,8 @@
 #   Call:    last_element([1, 2, 3])
 #   Returns: 3
 
-
+def last_element(input_list):
+    return input_list[len(input_list)-1]
 
 # Method name: first_two_elements
 # Purpose: returns the first two elements of the given list
@@ -49,7 +51,8 @@
 # Example:
 #   Call:    first_two_elements([1, 2, 3])
 #   Returns: [1, 2]
-
+def first_two_elements(input_list):
+    return input_list[:2]
 
 
 # Method name: first_three_elements
@@ -58,7 +61,8 @@
 # Example:
 #   Call:    first_three_elements([1, 2, 3, 4])
 #   Returns: [1, 2, 3]
-
+def first_three_elements(input_list):
+    return input_list[:3]
 
 
 # Method name: total
@@ -67,7 +71,8 @@
 # Example:
 #   Call:    total([1, 2, 3])
 #   Returns: 6
-
+def total(input_list):
+    return sum(input_list)
 
 
 # Method name: lowest_number
@@ -77,7 +82,8 @@
 #   Call:    lowest_number([4, 2, 6])
 #   Returns: 2
 
-
+def lowest_number(input_list):
+    return min(input_list)
 
 # Method name: highest_number
 # Purpose: returns the highest number in the given list
@@ -86,7 +92,8 @@
 #   Call:    highest_number([4, 6, 2])
 #   Returns: 6
 
-
+def highest_number(input_list):
+    return max(input_list)
 
 # Method name: the_beatles
 # Purpose: returns the list ['john', 'paul', 'george', 'ringo']
@@ -94,6 +101,8 @@
 # Example:
 #   Call:    the_beatles()
 #   Returns: ['john', 'paul', 'george', 'ringo']
+def the_beatles():
+    return ['john', 'paul', 'george', 'ringo']
 
 
 
@@ -104,7 +113,8 @@
 #   Call:    i_joined_the_beatles('yoko')
 #   Returns: ['john', 'paul', 'george', 'ringo', 'yoko']
 
-
+def i_joined_the_beatles(name):
+    return ['john', 'paul', 'george', 'ringo'].append(name)
 
 # Method name: we_joined_the_beatles
 # Purpose: adds the given names to the list ['john', 'paul', 'george', 'ringo']
@@ -113,7 +123,10 @@
 #   Call:    we_joined_the_beatles(['yoko', 'stuart'])
 #   Returns: ['john', 'paul', 'george', 'ringo', 'yoko', 'stuart']
 
-
+def we_joined_the_beatles(names):
+    beatles = ['john', 'paul', 'george', 'ringo']
+    for name in names: beatles.append(name)
+    return beatles
 
 # Method name: remove_nones_from_list
 # Purpose: removes all the None values from the given list
@@ -122,7 +135,8 @@
 #   Call:    remove_nones_from_list([1, None, 2, None, 3])
 #   Returns: [1, 2, 3]
 
-
+def remove_nones_from_list(input_list):
+    return [x for x in input_list if x is not None]
 
 # Method name: double_list
 # Purpose: returns a list with all the elements of the given list repeated twice
@@ -131,7 +145,8 @@
 #   Call:    double_list([1, 2, 3])
 #   Returns: [1, 2, 3, 1, 2, 3]
 
-
+def double_list(input_list):
+    return input_list + input_list
 
 # Method name: unique_elements
 # Purpose: returns a list with all the unique elements of the given list
@@ -140,7 +155,8 @@
 #   Call:    unique_elements([1, 2, 1, 3, 2, 3])
 #   Returns: [1, 2, 3]
 
-
+def unique_elements(input_list):
+    return list(set(input_list))
 
 # Method name: add_to_list
 # Purpose: adds the given element to the given list
@@ -149,7 +165,9 @@
 #   Call:    add_to_list(["a", "b", "c"], "d")
 #   Returns: ["a", "b", "c", "d"]
 
-
+def add_to_list(input_list, element):
+    input_list.append(element)
+    return input_list
 
 # == DICTIONARY EXERCISES ==
 
@@ -161,7 +179,10 @@
 #   Call:    new_band_member({"bass": "flea"})
 #   Returns: {"vocalist": "miss piggy", "lead_guitar": "scooter", "bass": "flea"}
 
-
+def new_band_member(new_member_info):
+    existing_band_members = {"vocalist": "miss piggy", "lead_guitar": "scooter"}
+    existing_band_members.update(new_member_info)
+    return existing_band_members
 
 # Method name: all_values
 # Purpose: returns a list of all the values in the given dictionary
@@ -170,7 +191,8 @@
 #   Call:    all_values({"a": 1, "b": 2, "c": 3})
 #   Returns: [1, 2, 3]
 
-
+def all_values(input_dict):
+    return list(input_dict.values())
 
 # Method name: all_keys
 # Purpose: returns a list of all the keys in the given dictionary
@@ -179,7 +201,8 @@
 #   Call:    all_keys({"a": 1, "b": 2, "c": 3})
 #   Returns: ["a", "b", "c"]
 
-
+def all_keys(input_dict):
+    return list(input_dict.keys())
 
 # Method name: remove_nones_from_dictionary
 # Purpose: removes all pairs from a given dictionary where the value is None
@@ -188,6 +211,8 @@
 #   Call:    remove_nones_from_dictionary({"a": 1, "b": None, "c": 3})
 #   Returns: {"a": 1, "c": 3}
 
+def remove_nones_from_dictionary(input_dict):
+    return {key: value for key, value in input_dict.items() if value is not None}
 
 
 
@@ -198,3 +223,5 @@
 #   Call:    touch_in('Aldgate East', '2022/01/30 17:12')
 #   Returns: {'entrypoint': 'Aldgate East', 'time': '2022/01/30 17:12'}
 
+def touch_in(station, time):
+    return {'entrypoint': station, 'time': time}
