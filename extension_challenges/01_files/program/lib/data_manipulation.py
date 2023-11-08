@@ -67,13 +67,16 @@ def get_file_contents(filename):
 # Notes:
 # * should use get_file_contents() - N.B. as should any subsequent
 # functions you write, using anything previously built if and where necessary
+def GetListFromString(string):
+    return string.split(";")
+
 def christmas_day_air_quality(filename, include_header_row):
     checkFile = os.open(filename,"r")
     ##30/12/2004
     dataToReturn = []
     data = checkFile.readlines()
     for row in data:
-        if str(row[0]) == '25/12/2004':
+        if GetListFromString(str(row))[0] == '25/12/2004':
             if include_header_row == True: dataToReturn.append(data[0]) ##add headers to data to show
             dataToReturn.append(row)
         ##end
@@ -95,9 +98,9 @@ def christmas_day_average_air_quality(filename):
     currentFile = os.open(filename,"r")
     data = currentFile.readlines()
     for row in data:
-        if str(row[0]) == '25/12/2004':
+        if GetListFromString(str(row))[0]== '25/12/2004':
             timesChecked =+ 1
-            totalAirQuality =+ float(row[4])
+            totalAirQuality =+ float(GetListFromString(str(row))[4])
         ##end
     #end
     currentFile.close()
@@ -114,18 +117,18 @@ def christmas_day_average_air_quality(filename):
 # * Data from months across multiple years should all be averaged together
 def get_averages_for_month(filename):
     allAvererages = { ##1 = Jan, 2 = Feb ...
-        1: 0,
-        2:0,
-        3:0,
-        4:0,
-        5:0,
-        6:0,
-        7:0,
-        8:0,
-        9:0,
-        10:0,
-        11:0,
-        12:0,
+        "01": 0,
+        "02":0,
+        "03":0,
+        "04":0,
+        "05":0,
+        "06":0,
+        "07":0,
+        "08":0,
+        "09":0,
+        "10":0,
+        "11":0,
+        "12":0,
     }
 
     ##01/34/00
@@ -134,17 +137,24 @@ def get_averages_for_month(filename):
     for Month in range(1,12,1):
         totalAverage = 0
         timesCounted = 0
+        targetMonth = "0"
+
+        if Month >= 10: 
+            targetMonth = str(Month) 
+        else :
+            targetMonth = targetMonth + str(Month)
+        ##end
+        
         for row in data:
-            if str(row[0])[3:4] == str(Month):
-                totalAverage+=row[4]
+            if GetListFromString(str(row))[0][3:5] == targetMonth:
+                totalAverage+= float(GetListFromString(str(row))[4])
                 timesCounted+=1
             ##end
         ##end
-        allAvererages[Month] = totalAverage / timesCounted
+        allAvererages[targetMonth] = totalAverage / timesCounted
     ##end
 
     return allAvererages
-
 
 # Purpose: write only the rows relating to March (any year) to a new file, in the same
 # location as the original, including the header row of labels
@@ -152,19 +162,18 @@ def get_averages_for_month(filename):
 #   Call: create_march_data("AirQuality.csv")
 #   Returns: nothing, but writes header + March data to file called
 #            "AirQualityMarch.csv" in same directory as "AirQuality.csv"
-import csv
-csvWriter = csv.writer()
+
 def create_march_data(filename):
     oldFile = os.open(filename,"r")
     data = oldFile.readlines()
     newData = []
     newData.append(data[0])
     for row in data:
-        if str(row[0])[3:4] == '03': newData.append(row)
+        if GetListFromString(str(row))[0][3:5] == '03': newData.append(row)
     ##end
 
     with open("AirQualityMarch.csv","+w") as currentFile:
-        for row in newData: csvWriter.writerow(row)
+        currentFile.writelines(newData)
         currentFile.close()
     ##end
 ##end
@@ -177,4 +186,24 @@ def create_march_data(filename):
 #   Returns: nothing, but files such as monthly_responses/05-2004.csv exist containing
 #            data matching responses from that month and year
 def create_monthly_responses(filename):
-    pass
+    dirName = "monthly_responses"
+    os.mkdir(os.path.join("/Users/jacktungavo/Projects/PythonFoundations/python_foundations/extension_challenges/01_files/program/"),dirName)
+    currentFile = os.open(filename,"r")
+    data = currentFile.readlines().copy()
+    currentFile.close()
+    currentMonth = ""
+    linesToAdd = []
+    for row in data:
+        if GetListFromString(str(row))[0][3:9] != currentMonth:
+            if currentMonth != "": 
+                currentFile.writelines(linesToAdd)
+                linesToAdd = []
+                currentFile.close() 
+            currentMonth = GetListFromString(str(row))[0][3:9]
+            currentFile = os.open(currentMonth.replace("/","-")+".csv","w")
+            linesToAdd.append(row)
+        else:
+            linesToAdd.append(row)
+        ##end
+    ##end
+##end
