@@ -24,7 +24,7 @@ import os
 # Notes:
 # * Use the already imported "os" module to check whether a given filename exists
 def does_file_exist(filename):
-    pass
+    return os.path.exists(filename)
 
 # Purpose: get the contents of a given file and return them; if the file cannot be
 # found, return a nice error message instead
@@ -42,7 +42,14 @@ def does_file_exist(filename):
 # * Use readlines() to read the contents
 # * Use should use does_file_exist()
 def get_file_contents(filename):
-    pass
+    if os.path.exists(filename) == False:
+        return "This file cannot be found!"
+    else:
+        checkFile = os.open(filename,"r")
+        listLines = checkFile.readlines().copy()
+        checkFile.close()
+        return listLines
+
 
 # Purpose: fetch Christmas Day (25th December) air quality data rows, and if
 # boolean argument "include_header_row" is True, return the first header row
@@ -61,17 +68,41 @@ def get_file_contents(filename):
 # * should use get_file_contents() - N.B. as should any subsequent
 # functions you write, using anything previously built if and where necessary
 def christmas_day_air_quality(filename, include_header_row):
-    pass
+    checkFile = os.open(filename,"r")
+    ##30/12/2004
+    dataToReturn = []
+    data = checkFile.readlines()
+    for row in data:
+        if str(row[0]) == '25/12/2004':
+            if include_header_row == True: dataToReturn.append(data[0]) ##add headers to data to show
+            dataToReturn.append(row)
+        ##end
+    ##end
+##end
 
 # Purpose: fetch Christmas Day average of "PT08.S1(CO)" values to 2 decimal places
 # Example:
 #   Call: christmas_day_average_air_quality("AirQuality.csv")
 #   Returns: 1439.21
 # Data sample:
+##0     1   2       3           4
 # Date;Time;CO(GT);PT08.S1(CO);NMHC(GT);C6H6(GT);PT08.S2(NMHC);NOx(GT);PT08.S3(NOx);NO2(GT);PT08.S4(NO2);PT08.S5(O3);T;RH;AH;;
 # 10/03/2004;18.00.00;2,6;1360;150;11,9;1046;166;1056;113;1692;1268;13,6;48,9;0,7578;;
 def christmas_day_average_air_quality(filename):
-    pass
+    totalAirQuality = 0
+    timesChecked = 0
+
+    currentFile = os.open(filename,"r")
+    data = currentFile.readlines()
+    for row in data:
+        if str(row[0]) == '25/12/2004':
+            timesChecked =+ 1
+            totalAirQuality =+ float(row[4])
+        ##end
+    #end
+    currentFile.close()
+
+    return totalAirQuality / timesChecked ##returns back AverageAirQuality
 
 # Purpose: scrape all the data and calculate average values for each of the 12 months
 #          for the "PT08.S1(CO)" values, returning a dictionary of keys as integer
@@ -82,7 +113,38 @@ def christmas_day_average_air_quality(filename):
 # Notes:
 # * Data from months across multiple years should all be averaged together
 def get_averages_for_month(filename):
-    pass
+    allAvererages = { ##1 = Jan, 2 = Feb ...
+        1: 0,
+        2:0,
+        3:0,
+        4:0,
+        5:0,
+        6:0,
+        7:0,
+        8:0,
+        9:0,
+        10:0,
+        11:0,
+        12:0,
+    }
+
+    ##01/34/00
+    currentFile = os.open(filename,"r")
+    data = currentFile.readlines()
+    for Month in range(1,12,1):
+        totalAverage = 0
+        timesCounted = 0
+        for row in data:
+            if str(row[0])[3:4] == str(Month):
+                totalAverage+=row[4]
+                timesCounted+=1
+            ##end
+        ##end
+        allAvererages[Month] = totalAverage / timesCounted
+    ##end
+
+    return allAvererages
+
 
 # Purpose: write only the rows relating to March (any year) to a new file, in the same
 # location as the original, including the header row of labels
@@ -90,8 +152,22 @@ def get_averages_for_month(filename):
 #   Call: create_march_data("AirQuality.csv")
 #   Returns: nothing, but writes header + March data to file called
 #            "AirQualityMarch.csv" in same directory as "AirQuality.csv"
+import csv
+csvWriter = csv.writer()
 def create_march_data(filename):
-    pass
+    oldFile = os.open(filename,"r")
+    data = oldFile.readlines()
+    newData = []
+    newData.append(data[0])
+    for row in data:
+        if str(row[0])[3:4] == '03': newData.append(row)
+    ##end
+
+    with open("AirQualityMarch.csv","+w") as currentFile:
+        for row in newData: csvWriter.writerow(row)
+        currentFile.close()
+    ##end
+##end
 
 # Purpose: write monthly responses files to a new directory called "monthly_responses",
 # in the same location as AirQuality.csv, each using the name format "mm-yyyy.csv",
