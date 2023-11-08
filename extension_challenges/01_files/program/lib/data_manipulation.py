@@ -116,7 +116,7 @@ def christmas_day_average_air_quality(filename):
 # Notes:
 # * Data from months across multiple years should all be averaged together
 def get_averages_for_month(filename):
-    allAvererages = { ##1 = Jan, 2 = Feb ...
+    allAverages = { ##1 = Jan, 2 = Feb ...
         "01": 0,
         "02":0,
         "03":0,
@@ -151,10 +151,10 @@ def get_averages_for_month(filename):
                 timesCounted+=1
             ##end
         ##end
-        allAvererages[targetMonth] = totalAverage / timesCounted
+        allAverages.update({targetMonth: totalAverage / timesCounted})
     ##end
 
-    return allAvererages
+    return allAverages
 
 # Purpose: write only the rows relating to March (any year) to a new file, in the same
 # location as the original, including the header row of labels
