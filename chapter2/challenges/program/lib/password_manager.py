@@ -45,18 +45,31 @@
 class PasswordManager:
     def __init__(self):
         self.passwords = {}
+    ##end
+
+    def is_valid(password):
+        if len(password) <= 7: return False
+        special = ["!","@","$","%","&"]
+        for char in password:
+            if char in special:
+                return True
+            ##end
+        ##end
+        return False
+    ##end
 
     def add(self, service, password):
         if self.is_valid(password):
-            self.passwords[service] = password
+            ##self.passwords[service] = password
+            self.passwords.update(service, password)
+        ##end
+    ##end
 
-    def get_for_service(self, service):
-        return self.passwords.get(service, None)
+    def get_for_service(self,service):
+        return self.passwords.get(service, None) ##<- to default
+    ##end
 
     def list_services(self):
         return list(self.passwords.keys())
-
-    def is_valid(self, password):
-        if len(password) >= 8 and any(char in password for char in '!@#$%&'):
-            return True
-        return False
+    ##end
+##end

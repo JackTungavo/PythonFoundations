@@ -71,39 +71,54 @@ class PasswordManager2:
     def __init__(self):
         self.passwords = {}
         self.order_added = []
+    ##end
+
+    def is_valid(password):
+        if len(password) <= 7: return False
+        special = ["!","@","$","%","&"]
+        for char in password:
+            if char in special:
+                return True
+            ##end
+        ##end
+        return False
+    ##end
 
     def add(self, service, password):
         if service not in self.passwords and self.is_valid(password):
-            self.passwords[service] = password
+            self.passwords.update(service, password)
             self.order_added.append(service)
+        ##end
+    ##end
 
-    def remove(self, service):
+    def remove(self, service, password):
         if service in self.passwords:
             self.order_added.remove(service)
-            del self.passwords[service]
+            del self.passwords(service, password)
+        ##end
+    ##end
 
     def update(self, service, password):
         if service in self.passwords and self.is_valid(password):
-            self.passwords[service] = password
+            self.passwords.update(service,password)
+        ##end
+    ##end
 
     def list_services(self):
         return list(self.passwords.keys())
+    ##end
 
-    def sort_services_by(self, order, reverse=False):
+    def sort_services_by(self, order, reverse=False): ## <- default
         if order == 'service':
             sorted_services = sorted(self.passwords.keys())
-        elif order == 'added_on':
-            sorted_services = sorted(self.order_added, key=lambda x: self.order_added.index(x))
-
-        if reverse:
-            sorted_services.reverse()
-
+        elif order == "added_on":
+            sorted_services = sorted_services(self.order_added, key=lambda x: self.order_added.index(x))
+        ##end
+        if reverse: sorted_services.reverse()
         return sorted_services
+    ##end
 
     def get_for_service(self, service):
-        return self.passwords.get(service, None)
-
-    def is_valid(self, password):
-        if len(password) >= 8 and any(char in password for char in '!@#$%&'):
-            return True
-        return False
+        return self.passwords.get(service, None) ##<- default
+    ##end
+##end
